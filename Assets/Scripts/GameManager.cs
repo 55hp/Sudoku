@@ -34,24 +34,6 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Apply a time malus to the timer.
-    /// </summary>
-    /// <param name="amount"></param>
-    public void TimeMalus(float amount)
-    {
-        time += amount;
-    }
-
-    /// <summary>
-    /// Apply a time bonus to the timer.
-    /// </summary>
-    /// <param name="amount"></param>
-    public void TimeBonus(float amount)
-    {
-        time -= amount;
-    }
-
-    /// <summary>
     /// Starting setup for the game.
     /// </summary>
     public void StartGame()
@@ -108,7 +90,6 @@ public class GameManager : MonoBehaviour
         selectedCellCol = c;
         selectedCellRow = r;
         PressNumber(value);
-        instance.TimeMalus(5);
     }
 
     #region EVENTS_REGION
@@ -152,12 +133,10 @@ public class GameManager : MonoBehaviour
             OnNumberPressed?.Invoke(buttonNumber);
             //Selct the "void" cell.
             OnCellSelected?.Invoke(-1, -1);
-            instance.TimeBonus(15);
             return true;
         }
         else
         {
-            instance.TimeMalus(10);
             WrongNumber();
             return false;
         }
