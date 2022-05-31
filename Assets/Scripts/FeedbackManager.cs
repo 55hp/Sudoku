@@ -8,7 +8,9 @@ public class FeedbackManager : MonoBehaviour
 {
     [SerializeField] public  VideoClip[] positiveClips;
     [SerializeField] public  VideoClip[] negativeClips;
-    [SerializeField] public  VideoClip[] endClips;
+    [SerializeField] public  VideoClip[] hintClips;
+
+    [SerializeField] public Text timeAmountTextfield;
 
     private VideoPlayer m_videoPlayer;
     private RawImage myImg;
@@ -41,6 +43,7 @@ public class FeedbackManager : MonoBehaviour
     public void PlayPositiveFeedback(int i)
     {
         StartCoroutine(PlayFeedback(positiveClips[Random.Range(0,positiveClips.Length)]));
+        StartCoroutine(ShowTimeAmount(-5));
     }
 
     /// <summary>
@@ -50,6 +53,17 @@ public class FeedbackManager : MonoBehaviour
     public void PlayNegativeFeedback()
     {
         StartCoroutine(PlayFeedback(negativeClips[Random.Range(0, positiveClips.Length)]));
+        StartCoroutine(ShowTimeAmount(15));
+    }
+
+    /// <summary>
+    /// Pick and plays a random clip from the hint collection.
+    /// </summary>
+    /// <param name="i"></param>
+    public void PlayHintFeedback()
+    {
+        StartCoroutine(PlayFeedback(hintClips[Random.Range(0, positiveClips.Length)]));
+        StartCoroutine(ShowTimeAmount(10));
     }
 
     /// <summary>
@@ -66,6 +80,22 @@ public class FeedbackManager : MonoBehaviour
         yield return new WaitForSeconds((float)clip.length);
         myImg.color = new Color(1, 1, 1, 0);
         m_videoPlayer.Stop();
+    }
+
+    public IEnumerator ShowTimeAmount(int timeAmount)
+    {
+        if(timeAmount > 0)
+        {
+            timeAmountTextfield.color = new Color(1, 0, 0, 0.7f);
+            timeAmountTextfield.text = "+" + timeAmount;
+        }
+        else
+        {
+            timeAmountTextfield.color = new Color(0, 1, 0, 0.7f);
+            timeAmountTextfield.text = "" + timeAmount;
+        }
+        yield return new WaitForSeconds(2f);
+        timeAmountTextfield.color = new Color(1, 1, 1, 0f);
     }
 
 }
